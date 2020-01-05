@@ -8,7 +8,6 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/Welcome.vue") },
       { path: "events", component: () => import("pages/Events.vue") },
       { path: "my-info", component: () => import("pages/UserInfo.vue") }
     ],

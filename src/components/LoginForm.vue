@@ -1,0 +1,105 @@
+<template>
+  <q-form v-on="listeners">
+    <q-input
+      v-model="userName"
+      outlined
+      placeholder="user"
+      lazy-rules
+      :rules="computedRules.userName"
+    />
+    <q-input
+      v-model="password"
+      :type="passwordVisibility.type"
+      outlined
+      placeholder="password"
+      :rules="computedRules.password"
+    >
+      <template v-slot:append>
+        <q-icon
+          :name="passwordVisibility.icon"
+          class="cursor-pointer"
+          @click="isPassword = !isPassword"
+        ></q-icon>
+      </template>
+    </q-input>
+    <q-btn label="Submit" type="submit" color="primary" />
+    <q-btn label="Reset" type="reset" color="primary" flat />
+  </q-form>
+</template>
+
+<script>
+export default {
+  name: "LoginForm",
+  props: {
+    customRules: {
+      type: Object,
+      required: false,
+      default() {
+        return {
+          userName: [],
+          password: []
+        };
+      },
+      validator(value) {
+        const keys = Object.keys(value);
+        if (keys.length > 0) {
+          const containsUserName = keys.includes("userName");
+          const containsPassword = keys.includes("password");
+          return (
+            (containsUserName && Array.isArray(value.userName)) ||
+            (containsPassword && Array.isArray(value.password))
+          );
+        }
+        return true;
+      }
+    }
+  },
+  data() {
+    return {
+      userName: null,
+      password: null,
+      isPassword: true
+    };
+  },
+  computed: {
+    passwordVisibility() {
+      return this.isPassword
+        ? { type: "password", icon: "visibility_off" }
+        : { type: "text", icon: "visibility" };
+    },
+    listeners() {
+      return {
+        ...this.$listeners,
+        reset: this.resetForm,
+        submit: this.submitForm
+      };
+    },
+    computedRules() {
+      return {
+        userName: [
+          ...this.customRules.userName,
+          val => (val && val.length > 0) || "Please write a valid user"
+        ],
+        password: [
+          ...this.customRules.password,
+          val => (val && val.length > 0) || "Please write a valid password"
+        ]
+      };
+    }
+  },
+  methods: {
+    resetForm() {
+      this.userName = null;
+      this.password = null;
+    },
+    submitForm() {
+      this.$emit("submit", {
+        userName: this.userName,
+        password: this.password
+      });
+    }
+  }
+};
+</script>
+
+<style></style>
