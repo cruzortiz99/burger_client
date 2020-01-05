@@ -10,14 +10,13 @@
           color="primary"
           show-value
         >
-          <q-icon name="calendar_today" size="xl" color="primary">
-          </q-icon>
+          <q-icon name="calendar_today" size="xl" color="primary"> </q-icon>
         </q-circular-progress>
         <welcome v-if="formVisible" />
         <login-form
           :class="['self-center', fadeAnimation]"
           v-if="formVisible"
-          @submit="print"
+          @submit="login"
         />
       </q-page>
     </q-page-container>
@@ -48,8 +47,10 @@ export default {
     }
   },
   methods: {
-    print(event) {
-      console.log(event);
+    login(event) {
+      localStorage.setItem("user", event.userName);
+      localStorage.setItem("token", event.password);
+      this.$router.push("/events");
     },
     async runLoader() {
       const loaderTimer = () =>
