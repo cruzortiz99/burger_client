@@ -34,7 +34,7 @@
         >
           <q-item-label header>Menu</q-item-label>
         </q-item>
-        <q-item clickable tag="my-info" href="#">
+        <q-item clickable href="#">
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
@@ -42,7 +42,7 @@
             <q-item-label>My information</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="events" href="#">
+        <q-item clickable href="#">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
