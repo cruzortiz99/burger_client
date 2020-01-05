@@ -34,7 +34,7 @@
         >
           <q-item-label header>Menu</q-item-label>
         </q-item>
-        <q-item clickable href="#">
+        <q-item clickable @click="goToMyInfo">
           <q-item-section avatar>
             <q-icon name="school" />
           </q-item-section>
@@ -42,7 +42,7 @@
             <q-item-label>My information</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable href="#">
+        <q-item clickable @click="goToEvents">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
@@ -71,6 +71,19 @@ export default {
   },
   computed: {
     ...mapGetters(["app_info/VERSION"])
+  },
+  methods: {
+    goToEvents() {
+      this.goTo("/events");
+    },
+    goToMyInfo() {
+      this.goTo("/my-info");
+    },
+    goTo(newPath) {
+      if (this.$route.path !== newPath) {
+        this.$router.push(newPath);
+      }
+    }
   }
 };
 </script>
