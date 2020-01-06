@@ -11,7 +11,8 @@ const routes = [
       { path: "events", component: () => import("pages/Events.vue") },
       { path: "my-info", component: () => import("pages/UserInfo.vue") }
     ],
-    beforeEnter: userLogged
+    beforeEnter: userLogged,
+    redirect: "/events"
   }
 ];
 
