@@ -12,12 +12,10 @@
         >
           <q-icon name="calendar_today" size="xl" color="primary"> </q-icon>
         </q-circular-progress>
-        <welcome v-if="formVisible" />
-        <login-form
-          :class="['self-center', fadeAnimation]"
-          v-if="formVisible"
-          @submit="login"
-        />
+        <div class="column justify-center q-gutter-md" v-if="formVisible">
+          <welcome />
+          <login-form :class="['self-center', fadeAnimation]" @submit="login" />
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>

@@ -1,30 +1,45 @@
 <template>
-  <q-form v-on="listeners">
-    <q-input
-      v-model="userName"
-      outlined
-      placeholder="user"
-      lazy-rules
-      :rules="computedRules.userName"
-    />
-    <q-input
-      v-model="password"
-      :type="passwordVisibility.type"
-      outlined
-      placeholder="password"
-      :rules="computedRules.password"
-    >
-      <template v-slot:append>
-        <q-icon
-          :name="passwordVisibility.icon"
-          class="cursor-pointer"
-          @click="isPassword = !isPassword"
-        ></q-icon>
-      </template>
-    </q-input>
-    <q-btn label="Submit" type="submit" color="primary" />
-    <q-btn label="Reset" type="reset" color="primary" flat />
-  </q-form>
+  <div>
+    <q-form v-on="listeners" class="q-gutter-md">
+      <div>
+        <q-input
+          v-model="userName"
+          outlined
+          placeholder="Insert User"
+          lazy-rules
+          :rules="computedRules.userName"
+        />
+        <q-input
+          v-model="password"
+          :type="passwordVisibility.type"
+          outlined
+          placeholder="Insert Password"
+          :rules="computedRules.password"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="passwordVisibility.icon"
+              class="cursor-pointer"
+              @click="isPassword = !isPassword"
+            ></q-icon>
+          </template>
+        </q-input>
+      </div>
+      <div class="row justify-center">
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Reset" type="reset" color="warning" flat />
+      </div>
+    </q-form>
+    <div class="column">
+      <q-btn
+        class="self-center"
+        to="/sign-in"
+        label="Sign In"
+        color="info"
+        flat
+      ></q-btn>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -8,10 +8,21 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "events", component: () => import("pages/Events.vue") },
-      { path: "my-info", component: () => import("pages/UserInfo.vue") }
+      {
+        path: "/sign-in",
+        component: () => import("pages/UserRegister.vue")
+      },
+      {
+        path: "events",
+        component: () => import("pages/Events.vue"),
+        beforeEnter: userLogged
+      },
+      {
+        path: "my-info",
+        component: () => import("pages/UserInfo.vue"),
+        beforeEnter: userLogged
+      }
     ],
-    beforeEnter: userLogged,
     redirect: "/events"
   }
 ];

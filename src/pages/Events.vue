@@ -136,6 +136,9 @@ export default {
     saveEventsIntoDb(eventToEdit) {
       console.log(eventToEdit, this.events);
       throw Error("most communicate with backend");
+    },
+    loadEventsFromDb() {
+      throw Error("most communicate with backend");
     }
   }
 };

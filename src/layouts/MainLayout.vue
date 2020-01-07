@@ -8,6 +8,7 @@
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           icon="menu"
+          v-if="logedIn"
           aria-label="Menu"
         />
 
@@ -21,6 +22,7 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
+      v-if="logedIn"
       show-if-above
       bordered
       content-class="bg-grey-2"
@@ -34,20 +36,28 @@
         >
           <q-item-label header>Menu</q-item-label>
         </q-item>
+        <q-item clickable @click="goToEvents">
+          <q-item-section avatar>
+            <q-icon name="calendar_today" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>My Events</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable @click="goToMyInfo">
           <q-item-section avatar>
-            <q-icon name="school" />
+            <q-icon name="account_box" />
           </q-item-section>
           <q-item-section>
             <q-item-label>My information</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable @click="goToEvents">
+        <q-item clickable @click="logout">
           <q-item-section avatar>
-            <q-icon name="code" />
+            <q-icon name="exit_to_app" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>My Events</q-item-label>
+            <q-item-label>Logout</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -70,6 +80,11 @@ export default {
     };
   },
   computed: {
+    logedIn() {
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+      return token && user;
+    },
     ...mapGetters(["app_info/VERSION"])
   },
   methods: {
@@ -83,6 +98,11 @@ export default {
       if (this.$route.path !== newPath) {
         this.$router.push(newPath);
       }
+    },
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.goTo("/login");
     }
   }
 };
