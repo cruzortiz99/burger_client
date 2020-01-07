@@ -43,29 +43,31 @@
                 v-for="(message, messageKey) in event.messages"
                 :key="messageKey"
               >
-                <q-item-section>{{ message }}</q-item-section>
-                <q-popup-edit
-                  v-model="events[eventKey].messages[messageKey]"
-                  @save="editEvent"
-                >
-                  <q-input v-model="events[eventKey].messages[messageKey]" />
-                </q-popup-edit>
-                <q-item-section top side>
-                  <div class="text-grey-8 q-gutter-xs">
-                    <q-btn
-                      class="gt-xs"
-                      size="12px"
-                      flat
-                      dense
-                      round
-                      icon="delete"
-                      @click="
-                        () => {
-                          deleteEvent({ eventKey, messageKey });
-                        }
-                      "
+                <q-item-section>
+                  {{ message }}
+                  <q-popup-edit
+                    v-model="events[eventKey].messages[messageKey]"
+                    @save="saveEventsIntoDb"
+                  >
+                    <q-input
+                      v-model="events[eventKey].messages[messageKey]"
+                      autofocus
                     />
-                  </div>
+                  </q-popup-edit>
+                </q-item-section>
+                <q-item-section top side>
+                  <q-btn
+                    size="12px"
+                    flat
+                    dense
+                    round
+                    icon="delete"
+                    @click="
+                      () => {
+                        deleteEvent({ eventKey, messageKey });
+                      }
+                    "
+                  />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -114,13 +116,26 @@ export default {
       return `${year}/${month}/${day}`;
     },
     deleteEvent(indexes) {
-      console.log(indexes);
+      this.events[indexes.eventKey].messages.splice(indexes.messageKey, 1);
+      this.saveEventsIntoDb();
     },
     addEvent() {
-      console.log("addEvent");
+      const dateIndex = this.events.findIndex(
+        event => event.date === this.date
+      );
+      if (dateIndex > -1) {
+        this.events[dateIndex].messages.push("New Event");
+        return this.saveEventsIntoDb();
+      }
+      this.events.push({
+        date: this.date,
+        messages: ["New Event"]
+      });
+      return this.saveEventsIntoDb();
     },
-    editEvent(eventToEdit) {
+    saveEventsIntoDb(eventToEdit) {
       console.log(eventToEdit, this.events);
+      throw Error("most communicate with backend");
     }
   }
 };
