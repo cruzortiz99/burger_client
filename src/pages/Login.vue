@@ -55,11 +55,11 @@ export default {
         new Promise(resolve => {
           setTimeout(() => {
             resolve();
-          }, 3000 / 100);
+          }, 100);
         });
-      for (let loader = 0; loader <= 100; loader++) {
+      for (let loader = 0; loader <= 20; loader++) {
         await loaderTimer();
-        this.loaderValue = loader;
+        this.loaderValue = loader * 7;
       }
       this.formVisible = !this.formVisible;
     }
