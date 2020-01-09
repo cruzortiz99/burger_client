@@ -10,7 +10,7 @@
           color="primary"
           show-value
         >
-          <q-icon name="calendar_today" size="xl" color="primary"> </q-icon>
+          <q-icon name="calendar_today" size="xl" color="primary"></q-icon>
         </q-circular-progress>
         <div class="column justify-center q-gutter-md" v-if="formVisible">
           <welcome />
@@ -37,7 +37,7 @@ export default {
     };
   },
   mounted() {
-    this.runLoader();
+    this.testConexion();
   },
   computed: {
     fadeAnimation() {
@@ -45,23 +45,41 @@ export default {
     }
   },
   methods: {
-    login(event) {
-      localStorage.setItem("user", event.userName);
-      localStorage.setItem("token", event.password);
+    async login(user) {
+      const requestUser = {
+        email: user.userName,
+        password: user.password
+      };
+      const response = await this.$axios.post("login", requestUser);
+      const status = response.status;
+      if (status == 400) {
+        return false;
+      }
+      if (status == 403) {
+        return false;
+      }
+      const userWithToken = response.data;
+      localStorage.setItem("token", userWithToken.token);
+      localStorage.setItem("user", userWithToken.name);
       this.$router.push("/events");
+      return true;
     },
-    async runLoader() {
-      const loaderTimer = () =>
+    async testConexion() {
+      const loaderTimer = time =>
         new Promise(resolve => {
           setTimeout(() => {
             resolve();
-          }, 100);
+          }, time);
         });
-      for (let loader = 0; loader <= 20; loader++) {
-        await loaderTimer();
-        this.loaderValue = loader * 7;
+      await loaderTimer(100);
+      try {
+        this.$axios.options("login").status;
+        this.loaderValue = 100;
+        await loaderTimer(750);
+        this.formVisible = true;
+      } catch (error) {
+        return null;
       }
-      this.formVisible = !this.formVisible;
     }
   }
 };
