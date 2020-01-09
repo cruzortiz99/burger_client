@@ -73,7 +73,7 @@ export default {
         });
       await loaderTimer(100);
       try {
-        this.$axios.options("login").status;
+        this.$axios.options("test").status;
         this.loaderValue = 100;
         await loaderTimer(750);
         this.formVisible = true;
