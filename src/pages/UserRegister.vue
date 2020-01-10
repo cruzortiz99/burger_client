@@ -10,7 +10,7 @@
       <q-form v-on="listeners" class="q-gutter-md">
         <div>
           <q-input
-            v-model="user.userName"
+            v-model="user.name"
             label="Name"
             placeholder="Inset name"
             lazy-rules
@@ -50,13 +50,7 @@
         <div class="row justify-center">
           <q-btn type="submit" label="Save" color="primary" />
           <q-btn type="reset" label="Clear" color="warning" flat />
-          <q-btn
-            type="cancel"
-            label="Cancel"
-            color="negative"
-            flat
-            @click="cancelRegister"
-          />
+          <q-btn type="cancel" label="Cancel" color="negative" flat @click="cancelRegister" />
         </div>
       </q-form>
     </div>
@@ -70,7 +64,7 @@ export default {
     return {
       isPassword: true,
       user: {
-        userName: null,
+        name: null,
         email: null,
         password: null
       }
@@ -118,9 +112,15 @@ export default {
     }
   },
   methods: {
-    saveUserIntoDb() {
-      console.log(this.user);
-      throw Error("most comminicate with backend");
+    async saveUserIntoDb() {
+      const response = await this.$axios.post("sign-in", this.user);
+      if (response.status === 400) {
+        return false;
+      }
+      if (response.status === 403) {
+        return false;
+      }
+      return this.goTo("/login");
     },
     goTo(pathRoute) {
       this.$router.push(pathRoute);
