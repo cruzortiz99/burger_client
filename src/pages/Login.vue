@@ -10,8 +10,11 @@
           color="primary"
           show-value
         >
-          <q-icon name="calendar_today" size="xl" color="primary"></q-icon>
+          <q-icon name="calendar_today" size="xl" color="primary" />
         </q-circular-progress>
+        <p class="self-center" v-if="!formVisible && errorMsj">
+          {{ errorMsj }}
+        </p>
         <div class="column justify-center q-gutter-md" v-if="formVisible">
           <welcome />
           <login-form :class="['self-center', fadeAnimation]" @submit="login" />
@@ -24,6 +27,8 @@
 <script>
 import Welcome from "./Welcome.vue";
 import LoginForm from "../components/LoginForm";
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   components: {
@@ -33,7 +38,8 @@ export default {
   data() {
     return {
       formVisible: false,
-      loaderValue: 0
+      loaderValue: 0,
+      errorMsj: null
     };
   },
   mounted() {
@@ -50,17 +56,10 @@ export default {
         email: user.userName,
         password: user.password
       };
-      const response = await this.$axios.post("login", requestUser);
-      const status = response.status;
-      if (status == 400) {
+      const status = await this["user/login"](requestUser);
+      if (status != 200) {
         return false;
       }
-      if (status == 403) {
-        return false;
-      }
-      const userWithToken = response.data;
-      localStorage.setItem("token", userWithToken.token);
-      localStorage.setItem("user", userWithToken.name);
       this.$router.push("/events");
       return true;
     },
@@ -72,15 +71,17 @@ export default {
           }, time);
         });
       await loaderTimer(100);
-      try {
-        this.$axios.options("test").status;
-        this.loaderValue = 100;
-        await loaderTimer(750);
-        this.formVisible = true;
-      } catch (error) {
-        return null;
+      const response = await this.$axios.options("test");
+      const status = response.status;
+      this.loaderValue = 100;
+      if (status !== 200) {
+        this.errorMsj = "Network conection error";
+        return false;
       }
-    }
+      await loaderTimer(750);
+      this.formVisible = true;
+    },
+    ...mapActions(["user/login"])
   }
 };
 </script>

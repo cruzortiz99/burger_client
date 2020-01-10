@@ -50,7 +50,13 @@
         <div class="row justify-center">
           <q-btn type="submit" label="Save" color="primary" />
           <q-btn type="reset" label="Clear" color="warning" flat />
-          <q-btn type="cancel" label="Cancel" color="negative" flat @click="cancelRegister" />
+          <q-btn
+            type="cancel"
+            label="Cancel"
+            color="negative"
+            flat
+            @click="cancelRegister"
+          />
         </div>
       </q-form>
     </div>
