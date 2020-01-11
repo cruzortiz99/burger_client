@@ -8,17 +8,17 @@
     </q-banner>
     <div class="column justify-center">
       <div class="q-pa-md">
-        <q-input v-model="user.userName" label="Name" readonly>
+        <q-input :value="this['user/userName']" label="Name" readonly>
           <template v-slot:before>
             <q-icon name="text_fields" />
           </template>
-          <q-popup-edit v-model="user.userName" @save="saveUserIntoDb">
-            <q-input v-model="user.userName" autofocus />
+          <q-popup-edit :value="this['user/userName']">
+            <q-input :value="this['user/userName']" autofocus @change="saveUserIntoDb" />
           </q-popup-edit>
         </q-input>
-        <q-input v-model="user.email" label="E-mail" readonly>
+        <q-input :value="this['user/email']" label="E-mail" readonly>
           <template v-slot:before>
-            <q-icon name="email"></q-icon>
+            <q-icon name="email" />
           </template>
         </q-input>
       </div>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "UserInfo",
   data() {
@@ -37,14 +38,18 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(["user/userName", "user/email"])
+  },
+  created() {},
   methods: {
-    saveUserIntoDb() {
-      console.log(this.user);
-      throw Error("most comminicate with backend");
+    saveUserIntoDb(event) {
+      this["user/updateUserName"](event.target.value);
     },
     loadEventsFromDb() {
       throw Error("most communicae with backend");
-    }
+    },
+    ...mapActions(["user/updateUserName"])
   }
 };
 </script>

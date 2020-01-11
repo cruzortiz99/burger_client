@@ -11,3 +11,7 @@ export const email = state => {
 export const events = state => {
   return state.email;
 };
+
+export const token = state => {
+  return state.token;
+};

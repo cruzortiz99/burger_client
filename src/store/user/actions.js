@@ -1,5 +1,4 @@
 import { axiosInstance } from "../../boot/axios";
-export function someAction(/* context */) {}
 
 export const login = async ({ commit }, payload) => {
   const response = await axiosInstance.post("login", payload);
@@ -9,4 +8,8 @@ export const login = async ({ commit }, payload) => {
   }
   commit("setUserWithToken", response.data);
   return status;
+};
+export const updateUserName = ({ commit }, payload) => {
+  commit("setUserName", payload);
+  throw Error("most comminicate with backend");
 };
