@@ -9,7 +9,18 @@ export const login = async ({ commit }, payload) => {
   commit("setUserWithToken", response.data);
   return status;
 };
-export const updateUserName = ({ commit }, payload) => {
+export const updateUserName = async ({ state, commit }, payload) => {
   commit("setUserName", payload);
-  throw Error("most comminicate with backend");
+  const user = {
+    name: state.userName,
+    email: state.email,
+    password: state.password
+  };
+  const response = await axiosInstance.post(`user/${state.email}`, user);
+  return response.status === 200;
+};
+
+export const getUserName = async ({ commit }, payload) => {
+  const response = await axiosInstance.get(`user/${payload}`);
+  commit("setUserName", response.data.name);
 };

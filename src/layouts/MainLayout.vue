@@ -12,9 +12,7 @@
           aria-label="Menu"
         />
 
-        <q-toolbar-title>
-          Katalina App
-        </q-toolbar-title>
+        <q-toolbar-title>Katalina App</q-toolbar-title>
 
         <div>Katalina v {{ this["app_info/VERSION"] }}</div>
       </q-toolbar>
@@ -81,11 +79,9 @@ export default {
   },
   computed: {
     logedIn() {
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-      return token && user;
+      return this["user/token"] && this["user/email"];
     },
-    ...mapGetters(["app_info/VERSION"])
+    ...mapGetters(["app_info/VERSION", "user/email", "user/token"])
   },
   methods: {
     goToEvents() {
@@ -101,7 +97,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.removeItem("email");
       this.goTo("/login");
     }
   }

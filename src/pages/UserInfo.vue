@@ -30,24 +30,14 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "UserInfo",
-  data() {
-    return {
-      user: {
-        userName: "Cruz Ortiz",
-        email: "cruzortiz099@gmail.com"
-      }
-    };
-  },
   computed: {
     ...mapGetters(["user/userName", "user/email"])
   },
   created() {},
   methods: {
-    saveUserIntoDb(event) {
-      this["user/updateUserName"](event.target.value);
-    },
-    loadEventsFromDb() {
-      throw Error("most communicae with backend");
+    async saveUserIntoDb(event) {
+      const success = this["user/updateUserName"](event.target.value);
+      return success;
     },
     ...mapActions(["user/updateUserName"])
   }

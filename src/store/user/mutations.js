@@ -1,5 +1,4 @@
 export const setUserName = (state, payload) => {
-  localStorage.setItem("user", payload);
   state.userName = payload;
 };
 
