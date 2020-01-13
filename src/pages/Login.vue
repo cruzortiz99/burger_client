@@ -12,7 +12,7 @@
         >
           <q-icon name="calendar_today" size="xl" color="primary" />
         </q-circular-progress>
-        <p class="self-center" v-if="!formVisible && errorMsj">
+        <p class="self-center text-negative" v-if="!formVisible && errorMsj">
           {{ errorMsj }}
         </p>
         <div class="column justify-center q-gutter-md" v-if="formVisible">
@@ -64,22 +64,26 @@ export default {
       return true;
     },
     async testConexion() {
-      const loaderTimer = time =>
-        new Promise(resolve => {
-          setTimeout(() => {
-            resolve();
-          }, time);
-        });
-      await loaderTimer(100);
-      const response = await this.$axios.options("test");
-      const status = response.status;
-      this.loaderValue = 100;
-      if (status !== 200) {
+      await this.loaderTimer(100);
+      try {
+        const response = await this.$axios.options("test");
+        const status = response.status;
+        if (status !== 200) {
+          this.errorMsj = "Network conection error";
+        }
+        await this.loaderTimer(750);
+        this.formVisible = true;
+      } catch (error) {
         this.errorMsj = "Network conection error";
-        return false;
       }
-      await loaderTimer(750);
-      this.formVisible = true;
+      this.loaderValue = 100;
+    },
+    loaderTimer(time) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, time);
+      });
     },
     ...mapActions(["user/login"])
   }

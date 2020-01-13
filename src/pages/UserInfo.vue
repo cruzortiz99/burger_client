@@ -13,7 +13,11 @@
             <q-icon name="text_fields" />
           </template>
           <q-popup-edit :value="this['user/userName']">
-            <q-input :value="this['user/userName']" autofocus @change="saveUserIntoDb" />
+            <q-input
+              :value="this['user/userName']"
+              autofocus
+              @change="saveUserIntoDb"
+            />
           </q-popup-edit>
         </q-input>
         <q-input :value="this['user/email']" label="E-mail" readonly>
