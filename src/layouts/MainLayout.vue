@@ -12,9 +12,7 @@
           aria-label="Menu"
         />
 
-        <q-toolbar-title>
-          Katalina App
-        </q-toolbar-title>
+        <q-toolbar-title>Katalina App</q-toolbar-title>
 
         <div>Katalina v {{ this["app_info/VERSION"] }}</div>
       </q-toolbar>
@@ -28,17 +26,12 @@
       content-class="bg-grey-2"
     >
       <q-list>
-        <q-item
-          clickable
-          tag="menu"
-          href="#"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        >
+        <q-item clickable tag="menu" href="#" @click="leftDrawerOpen = !leftDrawerOpen">
           <q-item-label header>Menu</q-item-label>
         </q-item>
         <q-item clickable @click="goToEvents">
           <q-item-section avatar>
-            <q-icon name="calendar_today" />
+            <q-icon name="today" />
           </q-item-section>
           <q-item-section>
             <q-item-label>My Events</q-item-label>
