@@ -12,16 +12,20 @@ export const setUser = (state, payload) => {
   setEmail(state, payload.email);
 };
 
+export const setEvents = (state, payload) => {
+  state.events = payload;
+};
+
 export const addEvent = (state, payload) => {
-  state.event.push(payload);
+  state.events.push(payload);
 };
 
 export const removeEvent = (state, payload) => {
-  event.splice(payload.index, 1);
+  state.events.splice(payload.index, 1);
 };
 
 export const uppdateEvent = (state, payload) => {
-  event[payload.index] = payload.event;
+  state.events[payload.index] = payload.event;
 };
 
 export const setToken = (state, payload) => {

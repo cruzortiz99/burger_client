@@ -79,31 +79,25 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Events",
   data() {
     return {
-      date: null,
-      events: []
+      date: null
     };
   },
-  created() {
+  mounted() {
     this.date = this.getDateFormat(new Date());
-    this.events = [
-      {
-        date: this.getDateFormat(new Date()),
-        messages: ["Testing 1", "Testing 2"]
-      },
-      {
-        date: this.getDateFormat(new Date("2020/01/06")),
-        messages: ["Testing 3", "Testing 4"]
-      }
-    ];
+    this.getEvents();
   },
   computed: {
     calendarEvents() {
       return this.events.map(event => event.date);
-    }
+    },
+    ...mapGetters({
+      events: "user/events"
+    })
   },
   methods: {
     getDateFormat(date) {
@@ -138,8 +132,11 @@ export default {
       throw Error("most communicate with backend");
     },
     loadEventsFromDb() {
-      throw Error("most communicate with backend");
-    }
+      this["user/getEvents"]();
+    },
+    ...mapActions({
+      getEvents: "user/getEvents"
+    })
   }
 };
 </script>

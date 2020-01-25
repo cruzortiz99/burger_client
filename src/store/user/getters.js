@@ -9,7 +9,7 @@ export const email = state => {
 };
 
 export const events = state => {
-  return state.email;
+  return state.events;
 };
 
 export const token = state => {

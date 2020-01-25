@@ -24,3 +24,8 @@ export const getUserName = async ({ commit }, payload) => {
   const response = await axiosInstance.get(`user/${payload}`);
   commit("setUserName", response.data.name);
 };
+
+export const getEvents = async ({ state, commit }) => {
+  const response = await axiosInstance.get(`event/${state.email}`);
+  commit("setEvents", response.data);
+};
