@@ -68,15 +68,19 @@ export default {
       try {
         const response = await this.$axios.options("test");
         const status = response.status;
+        this.loaderValue = 100;
         if (status !== 200) {
-          this.errorMsj = "Network conection error";
+          this.errorMsj = "Network connection error";
+          return false;
         }
-        await this.loaderTimer(750);
+        await this.loaderTimer(1000);
         this.formVisible = true;
+        return true;
       } catch (error) {
-        this.errorMsj = "Network conection error";
+        this.errorMsj = "Network connection error";
+        this.loaderValue = 100;
+        return false;
       }
-      this.loaderValue = 100;
     },
     loaderTimer(time) {
       return new Promise(resolve => {

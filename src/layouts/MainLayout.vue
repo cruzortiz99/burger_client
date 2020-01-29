@@ -36,7 +36,7 @@
         </q-item>
         <q-item clickable @click="goToEvents">
           <q-item-section avatar>
-            <q-icon name="calendar_today" />
+            <q-icon name="today" />
           </q-item-section>
           <q-item-section>
             <q-item-label>My Events</q-item-label>
