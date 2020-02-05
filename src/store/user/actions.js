@@ -29,3 +29,16 @@ export const getEvents = async ({ state, commit }) => {
   const response = await axiosInstance.get(`event/${state.email}`);
   commit("setEvents", response.data);
 };
+
+export const saveEvent = async ({ commit }, payload) => {
+  const { data } = await axiosInstance.post(`event`, payload);
+  commit("setEvents", data);
+};
+export const updateEvent = async ({ commit }, payload) => {
+  const { data } = await axiosInstance.put(`event`, payload);
+  commit("setEvents", data);
+};
+export const deleteEvent = async ({ commit }, payload) => {
+  const { data } = await axiosInstance.patch(`event`, payload);
+  commit("setEvents", data);
+};

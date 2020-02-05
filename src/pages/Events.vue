@@ -21,8 +21,9 @@
     >
       <template v-slot:before>
         <div class="q-pa-md">
-          <div class="q-gutter-md">
+          <div class="q-gutter-md column items-center">
             <q-date
+              class="col big-80"
               v-model="date"
               :events="calendarEvents"
               event-color="warning"
@@ -45,12 +46,14 @@
               >
                 <q-item-section>
                   {{ message }}
-                  <q-popup-edit
-                    v-model="events[eventKey].messages[messageKey]"
-                    @save="saveEventsIntoDb"
-                  >
+                  <q-popup-edit :value="events[eventKey].messages[messageKey]">
                     <q-input
-                      v-model="events[eventKey].messages[messageKey]"
+                      :value="events[eventKey].messages[messageKey]"
+                      @change="
+                        event => {
+                          editEvent(event, { eventKey, messageKey });
+                        }
+                      "
                       autofocus
                     />
                   </q-popup-edit>
@@ -64,7 +67,7 @@
                     icon="delete"
                     @click="
                       () => {
-                        deleteEvent({ eventKey, messageKey });
+                        removeEvent({ eventKey, messageKey });
                       }
                     "
                   />
@@ -96,7 +99,8 @@ export default {
       return this.events.map(event => event.date);
     },
     ...mapGetters({
-      events: "user/events"
+      events: "user/events",
+      email: "user/email"
     })
   },
   methods: {
@@ -109,36 +113,49 @@ export default {
       const day = date.getDate() > 10 ? date.getDate() : `0${date.getDate()}`;
       return `${year}/${month}/${day}`;
     },
-    deleteEvent(indexes) {
-      this.events[indexes.eventKey].messages.splice(indexes.messageKey, 1);
-      this.saveEventsIntoDb();
+    removeEvent({ eventKey, messagesKey }) {
+      const eventToRemove = {
+        email: this.email,
+        ...JSON.parse(JSON.stringify(this.events[eventKey]))
+      };
+      eventToRemove.messages.splice(messagesKey, 1);
+      if (eventToRemove.messages.length) {
+        return this.updateEvent(eventToRemove);
+      }
+      return this.deleteEvent(eventToRemove);
     },
     addEvent() {
-      const dateIndex = this.events.findIndex(
+      let eventToSave = JSON.parse(JSON.stringify(this.events)).filter(
         event => event.date === this.date
-      );
-      if (dateIndex > -1) {
-        this.events[dateIndex].messages.push("New Event");
-        return this.saveEventsIntoDb();
+      )[0];
+      if (eventToSave) {
+        eventToSave.messages.push("New Event");
+        return this.saveEvent(eventToSave);
       }
-      this.events.push({
+      eventToSave = {
+        email: this.email,
         date: this.date,
         messages: ["New Event"]
-      });
-      return this.saveEventsIntoDb();
+      };
+      return this.saveEvent(eventToSave);
     },
-    saveEventsIntoDb(eventToEdit) {
-      console.log(eventToEdit, this.events);
-      throw Error("most communicate with backend");
-    },
-    loadEventsFromDb() {
-      this["user/getEvents"]();
+    editEvent(event, { eventKey, messageKey }) {
+      const eventToEdit = { ...this.events[eventKey] };
+      eventToEdit.messages[messageKey] = event.target.value;
+      this.updateEvent(eventToEdit);
     },
     ...mapActions({
-      getEvents: "user/getEvents"
+      getEvents: "user/getEvents",
+      saveEvent: "user/saveEvent",
+      updateEvent: "user/updateEvent",
+      deleteEvent: "user/deleteEvent"
     })
   }
 };
 </script>
 
-<style />
+<style>
+.big-80 {
+  width: 80%;
+}
+</style>
