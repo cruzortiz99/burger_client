@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "target": "ES2015",
+    "strict": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "types": ["quasar", "node"],
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "dist"]
+}

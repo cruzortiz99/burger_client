@@ -1,7 +1,7 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import app_info from "./app_info";
-import user from "./user";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import app_info from './app_info';
+import user from './user';
 // import example from './module-example'
 
 Vue.use(Vuex);
@@ -24,7 +24,7 @@ export default function(/* { ssrContext } */) {
 
     // enable strict mode (adds overhead!)
     // for dev mode only
-    strict: process.env.DEV
+    strict: !!process.env.DEV
   });
 
   return Store;

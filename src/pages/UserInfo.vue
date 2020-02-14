@@ -30,22 +30,24 @@
   </q-page>
 </template>
 
-<script>
-import { mapGetters, mapActions } from "vuex";
-export default {
-  name: "UserInfo",
+<script lang="ts">
+import { mapGetters, mapActions } from 'vuex';
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'UserInfo',
   computed: {
-    ...mapGetters(["user/userName", "user/email"])
+    ...mapGetters(['user/userName', 'user/email'])
   },
   created() {},
   methods: {
     async saveUserIntoDb(event) {
-      const success = this["user/updateUserName"](event.target.value);
+      const success = this['user/updateUserName'](event.target.value);
       return success;
     },
-    ...mapActions(["user/updateUserName"])
+    ...mapActions(['user/updateUserName'])
   }
-};
+});
 </script>
 
 <style />

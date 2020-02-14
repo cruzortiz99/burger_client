@@ -42,9 +42,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "LoginForm",
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'LoginForm',
   props: {
     customRules: {
       type: Object,
@@ -58,8 +60,8 @@ export default {
       validator(value) {
         const keys = Object.keys(value);
         if (keys.length > 0) {
-          const containsUserName = keys.includes("userName");
-          const containsPassword = keys.includes("password");
+          const containsUserName = keys.includes('userName');
+          const containsPassword = keys.includes('password');
           return (
             (containsUserName && Array.isArray(value.userName)) ||
             (containsPassword && Array.isArray(value.password))
@@ -71,16 +73,16 @@ export default {
   },
   data() {
     return {
-      userName: null,
-      password: null,
+      userName: undefined,
+      password: undefined,
       isPassword: true
     };
   },
   computed: {
     passwordVisibility() {
       return this.isPassword
-        ? { type: "password", icon: "visibility_off" }
-        : { type: "text", icon: "visibility" };
+        ? { type: 'password', icon: 'visibility_off' }
+        : { type: 'text', icon: 'visibility' };
     },
     listeners() {
       return {
@@ -93,11 +95,11 @@ export default {
       return {
         userName: [
           ...this.customRules.userName,
-          val => (val && val.length > 0) || "Please write a valid user"
+          val => (val && val.length > 0) || 'Please write a valid user'
         ],
         password: [
           ...this.customRules.password,
-          val => (val && val.length > 0) || "Please write a valid password"
+          val => (val && val.length > 0) || 'Please write a valid password'
         ]
       };
     }
@@ -108,13 +110,13 @@ export default {
       this.password = null;
     },
     submitForm() {
-      this.$emit("submit", {
+      this.$emit('submit', {
         userName: this.userName,
         password: this.password
       });
     }
   }
-};
+});
 </script>
 
 <style></style>

@@ -67,10 +67,12 @@
   </q-layout>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-export default {
-  name: "MainLayout",
+<script lang="ts">
+import { mapGetters } from 'vuex';
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'MainLayout',
 
   data() {
     return {
@@ -79,16 +81,16 @@ export default {
   },
   computed: {
     logedIn() {
-      return this["user/token"] && this["user/email"];
+      return this['user/token'] && this['user/email'];
     },
-    ...mapGetters(["app_info/VERSION", "user/email", "user/token"])
+    ...mapGetters(['app_info/VERSION', 'user/email', 'user/token'])
   },
   methods: {
     goToEvents() {
-      this.goTo("/events");
+      this.goTo('/events');
     },
     goToMyInfo() {
-      this.goTo("/my-info");
+      this.goTo('/my-info');
     },
     goTo(newPath) {
       if (this.$route.path !== newPath) {
@@ -96,10 +98,10 @@ export default {
       }
     },
     logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("email");
-      this.goTo("/login");
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      this.goTo('/login');
     }
   }
-};
+});
 </script>

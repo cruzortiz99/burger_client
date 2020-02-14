@@ -81,10 +81,12 @@
   </q-page>
 </template>
 
-<script>
-import { mapActions, mapGetters } from "vuex";
-export default {
-  name: "Events",
+<script lang="ts">
+import { mapActions, mapGetters } from 'vuex';
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'Events',
   data() {
     return {
       date: null
@@ -99,8 +101,8 @@ export default {
       return this.events.map(event => event.date);
     },
     ...mapGetters({
-      events: "user/events",
-      email: "user/email"
+      events: 'user/events',
+      email: 'user/email'
     })
   },
   methods: {
@@ -129,13 +131,13 @@ export default {
         event => event.date === this.date
       )[0];
       if (eventToSave) {
-        eventToSave.messages.push("New Event");
+        eventToSave.messages.push('New Event');
         return this.saveEvent(eventToSave);
       }
       eventToSave = {
         email: this.email,
         date: this.date,
-        messages: ["New Event"]
+        messages: ['New Event']
       };
       return this.saveEvent(eventToSave);
     },
@@ -145,13 +147,13 @@ export default {
       this.updateEvent(eventToEdit);
     },
     ...mapActions({
-      getEvents: "user/getEvents",
-      saveEvent: "user/saveEvent",
-      updateEvent: "user/updateEvent",
-      deleteEvent: "user/deleteEvent"
+      getEvents: 'user/getEvents',
+      saveEvent: 'user/saveEvent',
+      updateEvent: 'user/updateEvent',
+      deleteEvent: 'user/deleteEvent'
     })
   }
-};
+});
 </script>
 
 <style>

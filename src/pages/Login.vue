@@ -24,13 +24,15 @@
   </q-layout>
 </template>
 
-<script>
-import Welcome from "./Welcome.vue";
-import LoginForm from "../components/LoginForm";
-import { mapActions } from "vuex";
+<script lang="ts">
+import Welcome from './Welcome.vue';
+import LoginForm from '../components/LoginForm';
+import { mapActions } from 'vuex';
 
-export default {
-  name: "Login",
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'Login',
   components: {
     Welcome,
     LoginForm
@@ -47,7 +49,7 @@ export default {
   },
   computed: {
     fadeAnimation() {
-      return this.formVisible ? "fade-animation" : "";
+      return this.formVisible ? 'fade-animation' : '';
     }
   },
   methods: {
@@ -56,28 +58,28 @@ export default {
         email: user.userName,
         password: user.password
       };
-      const status = await this["user/login"](requestUser);
+      const status = await this['user/login'](requestUser);
       if (status != 200) {
         return false;
       }
-      this.$router.push("/events");
+      this.$router.push('/events');
       return true;
     },
     async testConexion() {
       await this.loaderTimer(100);
       try {
-        const response = await this.$axios.options("test");
+        const response = await this.$axios.options('test');
         const status = response.status;
         this.loaderValue = 100;
         if (status !== 200) {
-          this.errorMsj = "Network connection error";
+          this.errorMsj = 'Network connection error';
           return false;
         }
         await this.loaderTimer(1000);
         this.formVisible = true;
         return true;
       } catch (error) {
-        this.errorMsj = "Network connection error";
+        this.errorMsj = 'Network connection error';
         this.loaderValue = 100;
         return false;
       }
@@ -89,9 +91,9 @@ export default {
         }, time);
       });
     },
-    ...mapActions(["user/login"])
+    ...mapActions(['user/login'])
   }
-};
+});
 </script>
 
 <style>

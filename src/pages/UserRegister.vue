@@ -63,9 +63,11 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  name: "UserRegister",
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'UserRegister',
   data() {
     return {
       isPassword: true,
@@ -79,8 +81,8 @@ export default {
   computed: {
     passwordVisibility() {
       return this.isPassword
-        ? { type: "password", icon: "visibility_off" }
-        : { type: "text", icon: "visibility" };
+        ? { type: 'password', icon: 'visibility_off' }
+        : { type: 'text', icon: 'visibility' };
     },
     listeners() {
       const self = this;
@@ -98,20 +100,20 @@ export default {
     computedRules() {
       return {
         userName: [
-          val => (val && val.length > 0) || "Please write a valid user"
+          val => (val && val.length > 0) || 'Please write a valid user'
         ],
         email: [
-          val => (val && val.length > 0) || "Please write a valid mail",
+          val => (val && val.length > 0) || 'Please write a valid mail',
           val => {
             const matches = val.match(/^\w+@\w+\.\w+$/);
             return (
-              (matches && matches.length > 0) || "Please insert a rigth email"
+              (matches && matches.length > 0) || 'Please insert a rigth email'
             );
           }
         ],
         password: [
           val => {
-            return (val && val.length > 0) || "Please write a valid password";
+            return (val && val.length > 0) || 'Please write a valid password';
           }
         ]
       };
@@ -119,23 +121,23 @@ export default {
   },
   methods: {
     async saveUserIntoDb() {
-      const response = await this.$axios.post("sign-in", this.user);
+      const response = await this.$axios.post('sign-in', this.user);
       if (response.status === 400) {
         return false;
       }
       if (response.status === 403) {
         return false;
       }
-      return this.goTo("/login");
+      return this.goTo('/login');
     },
     goTo(pathRoute) {
       this.$router.push(pathRoute);
     },
     cancelRegister() {
-      this.goTo("/login");
+      this.goTo('/login');
     }
   }
-};
+});
 </script>
 
 <style />
